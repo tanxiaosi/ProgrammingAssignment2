@@ -4,22 +4,21 @@
 
 ## This function will create a special "matrix" object that 
 ## can cache its inverse. Indeed the returned value would
-## be a list of for functions. See further comments for 
-## details.
+## be a list of for functions.
 
 makeCacheMatrix <- function(x = matrix()) {
 
   xinv <- matrix()
-## Set the matrix  
+  ## Set the matrix  
   set <- function(y = matrix()) {
     x <<- y
     xinv <<- matrix()
   }
-## Get the matrix
+  ## Get the matrix
   get <- function() x
-## Set the inverse
+  ## Set the inverse
   setinv <- function(inverse) xinv <<- inverse
-## Get the inverse
+  ## Get the inverse
   getinv <- function() xinv
   list(set = set, get = get,
        setinv = setinv,
@@ -36,13 +35,15 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
   xinv <- x$getinv()
-## if the inverse is already computed, then just retrieve
-## it from the cache
+  
+  ## if the inverse is already computed, then just retrieve
+  ## it from the cache
   if(!sum(is.na(xinv))) {
     message("getting cached data")
     return(xinv)
   }
-## get the created matrix and calculate the inverse
+
+  ## get the created matrix and calculate the inverse
   data <- x$get()
   xinv <- solve(data, ...)
   x$setinv(xinv)
